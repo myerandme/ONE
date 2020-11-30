@@ -21,7 +21,7 @@
 ## 感谢
 
 - 该项目 fork 于[daibor/nonsense.fun: 废话胶囊，你说话的地方 #保卫表达#](https://github.com/daibor/nonsense.fun)
-- - 前端样式为微信朋友圈，来自[-85°C | 冷笑话集合 | Juuun's World](https://juuun.io/cold/)。
+- 前端样式为微信朋友圈，来自[-85°C | 冷笑话集合 | Juuun's World](https://juuun.io/cold/)。
 - [品味（2）：“品味”生活的10种策略 - 阳志平的网志](https://www.yangzhiping.com/psy/savoring-10.html)
 - [一个人的微博 - 阳志平的网志](https://www.yangzhiping.com/psy/quiet.html)
 
