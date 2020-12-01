@@ -270,7 +270,7 @@ li {
                         <img src="https://blgo-1258469251.image.myqcloud.com/baixiong.JPG" alt="头像">
                     </div>
                     <div class="item-content">
-                        <div class="content-nickname">Syroan</div>
+                        <div class="content-nickname">Syaoran</div>
                         <pre class="content-text" v-html='item.attributes.content'></pre>
                         <div class="content-actions">
                             <span class="actions-time" v-bind:datetime="item.attributes.time">{{item.attributes.time}}</span>
@@ -283,7 +283,7 @@ li {
                     </div>
                 </li>
             </ul>
-            <p class="tip">已有留言{{count}} 条</p>
+            <p class="tip">已有留言{{count}}条</p>
             <div class="load-ctn">
                 <button class="load-btn" v-on:click="loadMore" v-if="contents" v-cloak>再翻翻</button>
                 <p class="tip" v-else>别急，加载呢</p>
