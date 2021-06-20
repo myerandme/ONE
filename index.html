@@ -4,8 +4,8 @@
 <head>
     <title>碎言碎语</title>
     <link rel="shortcut icon" href="https://blgo-1258469251.image.myqcloud.com/baixiong.JPG" />
-    <link type="text/css" rel="stylesheet" href="https://at.alicdn.com/t/font_1755564_z4mhxbw13mq.css">
-    </link>
+    <link type="text/css" rel="stylesheet" href="https://at.alicdn.com/t/font_1755564_z4mhxbw13mq.css"></link>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-photo-preview@1.1.3/dist/skin.css"></link>
     <link href="https://fonts.loli.net/css?family=Noto+Serif+SC:200,300,900&display=swap&subset=chinese-simplified" rel="stylesheet">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="description" content="">
@@ -199,6 +199,10 @@ li {
     display: block;
     width: 100%;
 }
+.layout-cold .tl-items .tl-item .item-content img {
+    display:block;
+    width: 50%;
+}
 
 .layout-cold .tl-cover .cover-home {
     position: absolute;
@@ -248,6 +252,8 @@ li {
     background: #666;
     color: #fff;
 }
+
+
 </style>
 
 <body class="vsc-initialized">
@@ -266,10 +272,11 @@ li {
             </div>
             <ul class="tl-items">
                 <li class="tl-item" v-for="item in contents" v-cloak>
+                    <!-- 循环内容 -->
                     <div class="item-avatar">
                         <img src="https://blgo-1258469251.image.myqcloud.com/baixiong.JPG" alt="头像">
                     </div>
-                    <div class="item-content">
+                    <div class="item-content" id="vm">
                         <div class="content-nickname">Syaoran</div>
                         <pre class="content-text" v-html='item.attributes.content'></pre>
                         <div class="content-actions">
@@ -293,6 +300,7 @@ li {
 </body>
 <script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/leancloud-storage@4.5.3/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-photo-preview@1.1.3/dist/vue-photo-preview.min.js"></script>
 <script type="text/javascript">
 var {
     Query
@@ -304,7 +312,10 @@ AV.init({
     //serverURLs: '国际版可删除该行，否则必须在后台绑定域名并填写在此'
 });
 
+localStorage.setItem('debug', 'leancloud*');
+
 var query = new AV.Query('content');
+// 新建查询「内容」接口
 
 var app = new Vue({
     el: '#app',
@@ -320,17 +331,39 @@ var app = new Vue({
     }
 })
 
-function urlToLink(str) {
-    var re = /(http|ftp|https):\/\/[\w-]+(.[\w-]+)+([\w-.,@?^=%&:/~+#]*[\w-\@?^=%&/~+#])?/g;;
 
-    str = str.replace(re, function(website) {
-        return "<a href='" + website + "' target='_blank'> <i class='iconfont icon-lianjie-copy'></i>链接 </a>";
-    });
-    return str;
+var options={
+				fullscreenEl:false, //关闭全屏按钮
+			}
+			
+Vue.use(vuePhotoPreview,options)
+			
+var vm=new Vue({
+    el:'#vm',
+
+    mounted:function(){
+        //异步插入的图片
+        setTimeout(() => {
+            vm.$previewRefresh()
+        }, 2000);
+
+    }
+})
+		
+
+
+function urlToLink(str) {
+    // url 转 链接
+    return str = (stt = str.replace(/\bhttps?:\/\/(?!\S+(?:jpe?g|png|bmp|gif|webp|gif))\S+/g, (function(str) {
+            return "<a href='" + str + "' target='_blank'> <i class='iconfont icon-lianjie-copy'></i>链接 </a>"
+        }))).replace(/\bhttps?:\/\/.*?(\.gif|\.jpeg|\.png|\.jpg|\.bmp|\.webp)/g, (function(str) {
+            return "<img src= '" + str + " 'preview='0' >"
+        }))
 }
 
 function getData(page = 0) {
-    query.descending('createdAt').skip(page * 20).limit(20).find().then(function(results) {
+    // 获取数据
+    query.descending('createdAt').skip(page * 10).limit(10).find().then(function(results) {
         if (results.length == 0) {
             alert('还没说话呢')
         } else {
